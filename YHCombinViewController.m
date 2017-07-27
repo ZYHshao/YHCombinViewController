@@ -7,9 +7,15 @@
 //
 
 #import "YHCombinViewController.h"
+#import "YHMenuBar.h"
 
-@interface YHCombinViewController ()
 
+
+
+@interface YHCombinViewController ()<YHMenuBarDelegate>
+{
+    CGFloat _menuHeight;
+}
 @property(nonatomic,strong)UIScrollView * mainScrollView;
 
 @property(nonatomic,assign)int currentIndex;
@@ -19,6 +25,10 @@
 @property(nonatomic,strong)UIPanGestureRecognizer * panGestureRecognizer;
 
 @property(nonatomic,assign)BOOL isAotuTransitoning;
+
+@property(nonatomic,strong)YHMenuBar * menuBar;
+
+@property(nonatomic,assign,readonly)CGFloat viewHeight;
 
 @end
 
@@ -36,8 +46,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initialMenu];
     [self loadGesture];
     [self layoutInitalController];
+}
+
+
+-(void)initialMenu{
+    [self.mainScrollView addSubview:self.menuBar];
+    NSMutableArray * titles = [NSMutableArray array];
+    for (int i=0; i<self.controllerArrays.count; i++) {
+        [titles addObject:self.controllerArrays[i].title?self.controllerArrays[i].title:@""];
+    }
+    [self.menuBar reloadBarWithTitle:titles];
 }
 
 -(void)loadGesture{
@@ -46,7 +67,8 @@
 
 -(void)layoutInitalController{
     _currentController = self.controllerArrays[self.currentIndex];
-    [self.view addSubview:_currentController.view];
+    _currentController.view.frame = CGRectMake(0, [self contentViewOffsetY],self.view.frame.size.width , self.viewHeight);
+    [self.mainScrollView addSubview:_currentController.view];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,22 +93,79 @@
     }
 }
 
+-(void)selectControllerIndex:(int)index{
+    if (index == self.currentIndex || index<0 || index>=self.controllerArrays.count) {
+        return;
+    }
+    [self perpareTransitionControllerWithIndex:index];
+    self.isAotuTransitoning = YES;
+    if (index<self.currentIndex) {
+        [self beginTransitionPrevious:index];
+    }else{
+        [self beginTransitionNext:index];
+    }
+}
+
+-(void)beginTransitionPrevious:(int)index{
+    UIView * currentView = self.currentController.view;
+    UIView * preView = self.previousController.view;
+    [UIView animateWithDuration:0.3 animations:^{
+        currentView.frame = CGRectMake(currentView.frame.size.width, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+        preView.frame = CGRectMake(0, preView.frame.origin.y, preView.frame.size.width, preView.frame.size.height);
+    }completion:^(BOOL finished) {
+        self.isAotuTransitoning = NO;
+        [currentView removeFromSuperview];
+        self.currentIndex = index;
+        self.currentController = self.controllerArrays[self.currentIndex];
+        self.previousController = nil;
+        self.nextController = nil;
+    }];
+}
+
+-(void)beginTransitionNext:(int)index{
+    UIView * nextView = self.nextController.view;
+    UIView * currentView = self.currentController.view;
+    [UIView animateWithDuration:0.3 animations:^{
+        currentView.frame = CGRectMake(-currentView.frame.size.width, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+        nextView.frame = CGRectMake(0, nextView.frame.origin.y, nextView.frame.size.width, nextView.frame.size.height);
+    }completion:^(BOOL finished) {
+        self.isAotuTransitoning = NO;
+        [currentView removeFromSuperview];
+        self.currentIndex = index;
+        self.currentController = self.controllerArrays[self.currentIndex];
+        self.previousController = nil;
+        self.nextController = nil;
+    }];
+}
+
+
+
+-(void)perpareTransitionControllerWithIndex:(int)index{
+    CGRect currentRect = self.currentController.view.frame;
+    if (index<self.currentIndex) {
+        self.previousController = self.controllerArrays[index];
+        self.previousController.view.frame = CGRectMake(currentRect.origin.x-currentRect.size.width, currentRect.origin.y, self.view.frame.size.width, self.viewHeight);
+        [self.mainScrollView addSubview:self.previousController.view];
+    }else{
+        self.nextController = self.controllerArrays[index];
+        self.nextController.view.frame = CGRectMake(currentRect.size.width, currentRect.origin.y, self.view.frame.size.width, self.viewHeight);
+        [self.mainScrollView addSubview:self.nextController.view];
+    }
+}
 
 
 #pragma mark - custom Animation
 -(void)perpareTransitionController{
-    CGRect currentRect = self.view.frame;
+    CGRect currentRect = self.currentController.view.frame;
     if (self.currentIndex>0) {
         self.previousController = self.controllerArrays[self.currentIndex-1];
-        CGRect preRect = self.previousController.view.frame;
-        self.previousController.view.frame = CGRectMake(currentRect.origin.x-preRect.size.width, currentRect.origin.y, preRect.size.width, preRect.size.height);
-        [self.view addSubview:self.previousController.view];
+        self.previousController.view.frame = CGRectMake(currentRect.origin.x-currentRect.size.width, currentRect.origin.y, self.view.frame.size.width, self.viewHeight);
+        [self.mainScrollView addSubview:self.previousController.view];
     }
     if (self.currentIndex<self.controllerArrays.count-1) {
         self.nextController = self.controllerArrays[self.currentIndex+1];
-        CGRect nextRect = self.nextController.view.frame;
-        self.nextController.view.frame = CGRectMake(currentRect.size.width, currentRect.origin.y, nextRect.size.width, nextRect.size.height);
-        [self.view addSubview:self.nextController.view];
+        self.nextController.view.frame = CGRectMake(currentRect.size.width, currentRect.origin.y, self.view.frame.size.width, self.viewHeight);
+        [self.mainScrollView addSubview:self.nextController.view];
     }
 }
 
@@ -187,16 +266,26 @@
     }
 }
 
+
+-(void)reloadView{
+    self.mainScrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.menuBar.frame = CGRectMake(0, 0, self.view.frame.size.width, self.menuHeight);
+}
+
+
+#pragma mark - layout
+
+-(void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    [self reloadView];
+}
+
 #pragma mark - getter and setter
 
 -(UIScrollView *)mainScrollView{
     if (!_mainScrollView) {
-        _mainScrollView = [[UIScrollView alloc]init];
+        _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         [self.view addSubview:_mainScrollView];
-        NSArray * constraintH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[mainScrollView]-0|" options:0 metrics:nil views:@{@"mainScrollView":_mainScrollView}];
-        NSArray * constraintV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[mainScrollView]-0|" options:0 metrics:nil views:@{@"mainScrollView":_mainScrollView}];
-        [_mainScrollView addConstraints:constraintH];
-        [_mainScrollView addConstraints:constraintV];
     }
     return _mainScrollView;
 }
@@ -218,8 +307,42 @@
     return _panGestureRecognizer;
 }
 
+-(YHMenuBar *)menuBar{
+    if (!_menuBar) {
+        _menuBar = [[YHMenuBar alloc]initWithTitles:nil];
+        _menuBar.frame = CGRectMake(0, 0, self.view.frame.size.width, self.menuHeight);
+        _menuBar.delegate = self;
+    }
+    return _menuBar;
+}
 
+-(CGFloat)menuHeight{
+    if (_menuHeight<30) {
+        return 30;
+    }
+    if (_menuHeight>70) {
+        return 70;
+    }
+    return _menuHeight;
+}
 
+-(void)setMenuHeight:(CGFloat)menuHeight{
+    _menuHeight = menuHeight;
+    [self reloadView];
+}
+
+-(CGFloat)viewHeight{
+    return self.view.frame.size.height-self.menuHeight;
+}
+
+-(CGFloat)contentViewOffsetY{
+    return self.menuHeight;
+}
+
+#pragma mark - menuBar delegate
+-(void)selectedItemWithIndex:(int)index{
+    [self selectControllerIndex:index];
+}
 
 
 @end

@@ -21,11 +21,14 @@
 }
 
 - (IBAction)btn:(id)sender {
-    UIViewController * con1 = [[UIViewController alloc]init];
-    con1.view.backgroundColor = [UIColor redColor];
-    UIViewController * con2 = [[UIViewController alloc]init];
-    con2.view.backgroundColor = [UIColor blueColor];
-    YHCombinViewController * combin = [[YHCombinViewController alloc]initWithControllers:@[con1,con2]];
+    NSMutableArray * array = [NSMutableArray array];
+    for (int  i =0; i<10; i++) {
+        UIViewController *  con = [[UIViewController alloc]init];
+        con.view.backgroundColor = [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
+        con.title = [NSString stringWithFormat:@"控制器%d",i];
+        [array addObject:con];
+    }
+    YHCombinViewController * combin = [[YHCombinViewController alloc]initWithControllers:array];
     [self presentViewController:combin animated:YES completion:nil];
 }
 

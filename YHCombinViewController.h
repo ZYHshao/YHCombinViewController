@@ -16,4 +16,8 @@
 
 @property(nonatomic,strong,readonly)NSArray<UIViewController*> *controllerArrays;
 
+@property(nonatomic,assign)CGFloat menuHeight;//minum is 30 maxmum is 70
+
+-(void)selectControllerIndex:(int)index;
+
 @end

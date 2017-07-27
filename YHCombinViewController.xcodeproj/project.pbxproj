@@ -14,6 +14,7 @@
 		252873761F297EDB0032CE2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 252873751F297EDB0032CE2B /* Assets.xcassets */; };
 		252873791F297EDB0032CE2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 252873771F297EDB0032CE2B /* LaunchScreen.storyboard */; };
 		252873831F297F280032CE2B /* YHCombinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252873821F297F280032CE2B /* YHCombinViewController.m */; };
+		252873861F29D8F30032CE2B /* YHMenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 252873851F29D8F30032CE2B /* YHMenuBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		2528737A1F297EDB0032CE2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		252873811F297F280032CE2B /* YHCombinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCombinViewController.h; sourceTree = "<group>"; };
 		252873821F297F280032CE2B /* YHCombinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHCombinViewController.m; sourceTree = "<group>"; };
+		252873841F29D8F30032CE2B /* YHMenuBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHMenuBar.h; sourceTree = "<group>"; };
+		252873851F29D8F30032CE2B /* YHMenuBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHMenuBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +91,8 @@
 			children = (
 				252873811F297F280032CE2B /* YHCombinViewController.h */,
 				252873821F297F280032CE2B /* YHCombinViewController.m */,
+				252873841F29D8F30032CE2B /* YHMenuBar.h */,
+				252873851F29D8F30032CE2B /* YHMenuBar.m */,
 			);
 			name = class;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				252873711F297EDB0032CE2B /* ViewController.m in Sources */,
+				252873861F29D8F30032CE2B /* YHMenuBar.m in Sources */,
 				2528736E1F297EDB0032CE2B /* AppDelegate.m in Sources */,
 				2528736B1F297EDB0032CE2B /* main.m in Sources */,
 				252873831F297F280032CE2B /* YHCombinViewController.m in Sources */,
@@ -326,6 +332,7 @@
 				2528737F1F297EDB0032CE2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
