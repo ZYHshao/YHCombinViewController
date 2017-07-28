@@ -8,15 +8,16 @@
 
 #import "YHCombinViewController.h"
 #import "YHMenuBar.h"
+#import "YHScrollView.h"
 
 
 
-
-@interface YHCombinViewController ()<YHMenuBarDelegate>
+@interface YHCombinViewController ()<YHMenuBarDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate>
 {
     CGFloat _menuHeight;
+    CGFloat _headerHeight;
 }
-@property(nonatomic,strong)UIScrollView * mainScrollView;
+@property(nonatomic,strong)YHScrollView * mainScrollView;
 
 @property(nonatomic,assign)int currentIndex;
 
@@ -29,6 +30,15 @@
 @property(nonatomic,strong)YHMenuBar * menuBar;
 
 @property(nonatomic,assign,readonly)CGFloat viewHeight;
+
+@property(nonatomic,assign)CGFloat currentVelocity;
+
+@property(nonatomic,assign)CGPoint currentViewScrollContentOffset;
+
+@property(nonatomic,assign)BOOL mainScrollisTop;
+
+@property(nonatomic,assign)BOOL scrollToTop;
+
 
 @end
 
@@ -59,6 +69,7 @@
         [titles addObject:self.controllerArrays[i].title?self.controllerArrays[i].title:@""];
     }
     [self.menuBar reloadBarWithTitle:titles];
+    [self.menuBar selectIndex:self.currentIndex];
 }
 
 -(void)loadGesture{
@@ -119,7 +130,9 @@
         self.currentController = self.controllerArrays[self.currentIndex];
         self.previousController = nil;
         self.nextController = nil;
+        [self.menuBar selectIndex:self.currentIndex];
     }];
+  
 }
 
 -(void)beginTransitionNext:(int)index{
@@ -135,6 +148,7 @@
         self.currentController = self.controllerArrays[self.currentIndex];
         self.previousController = nil;
         self.nextController = nil;
+        [self.menuBar selectIndex:self.currentIndex];
     }];
 }
 
@@ -156,6 +170,7 @@
 
 #pragma mark - custom Animation
 -(void)perpareTransitionController{
+    self.currentVelocity = 0;
     CGRect currentRect = self.currentController.view.frame;
     if (self.currentIndex>0) {
         self.previousController = self.controllerArrays[self.currentIndex-1];
@@ -170,6 +185,7 @@
 }
 
 -(void)didTransitionController:(CGPoint)point{
+    self.currentVelocity = [self.panGestureRecognizer velocityInView:self.view].x;
     UIView * preView = self.previousController.view;
     UIView * nextView = self.nextController.view;
     UIView * currentView = self.currentController.view;
@@ -225,7 +241,43 @@
     UIView * nextView = self.nextController.view;
     UIView * preView = self.previousController.view;
     self.isAotuTransitoning = YES;
-    if (currentView.frame.origin.x<=-currentView.frame.size.width/2) {
+    if (self.currentVelocity<-300) {
+        if (nextView) {
+            [UIView animateWithDuration:0.3 animations:^{
+                currentView.frame = CGRectMake(-currentView.frame.size.width, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+                nextView.frame = CGRectMake(0, nextView.frame.origin.y, nextView.frame.size.width, nextView.frame.size.height);
+            }completion:^(BOOL finished) {
+                self.isAotuTransitoning = NO;
+                [preView removeFromSuperview];
+                [currentView removeFromSuperview];
+                self.currentIndex++;
+                self.currentController = self.controllerArrays[self.currentIndex];
+                self.previousController = nil;
+                self.nextController = nil;
+                [self.menuBar selectIndex:self.currentIndex];
+            }];
+        }else{
+            self.isAotuTransitoning = NO;
+        }
+    }else if(self.currentVelocity>300){
+        if (preView) {
+            [UIView animateWithDuration:0.3 animations:^{
+                currentView.frame = CGRectMake(currentView.frame.size.width, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
+                preView.frame = CGRectMake(0, preView.frame.origin.y, preView.frame.size.width, preView.frame.size.height);
+            }completion:^(BOOL finished) {
+                self.isAotuTransitoning = NO;
+                [nextView removeFromSuperview];
+                [currentView removeFromSuperview];
+                self.currentIndex--;
+                self.currentController = self.controllerArrays[self.currentIndex];
+                self.previousController = nil;
+                self.nextController = nil;
+                [self.menuBar selectIndex:self.currentIndex];
+            }];
+        }else{
+            self.isAotuTransitoning = NO;
+        }
+    }else if (currentView.frame.origin.x<=-currentView.frame.size.width/2) {
         [UIView animateWithDuration:0.3 animations:^{
             currentView.frame = CGRectMake(-currentView.frame.size.width, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
             nextView.frame = CGRectMake(0, nextView.frame.origin.y, nextView.frame.size.width, nextView.frame.size.height);
@@ -237,6 +289,7 @@
             self.currentController = self.controllerArrays[self.currentIndex];
             self.previousController = nil;
             self.nextController = nil;
+            [self.menuBar selectIndex:self.currentIndex];
         }];
     }else if (currentView.frame.origin.x<=currentView.frame.size.width/2) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -249,6 +302,7 @@
             [nextView removeFromSuperview];
             self.previousController = nil;
             self.nextController = nil;
+            [self.menuBar selectIndex:self.currentIndex];
         }];
     }else{
         [UIView animateWithDuration:0.3 animations:^{
@@ -262,18 +316,22 @@
             self.currentController = self.controllerArrays[self.currentIndex];
             self.previousController = nil;
             self.nextController = nil;
+            [self.menuBar selectIndex:self.currentIndex];
         }];
     }
 }
 
 
--(void)reloadView{
-    self.mainScrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    self.menuBar.frame = CGRectMake(0, 0, self.view.frame.size.width, self.menuHeight);
-}
 
 
 #pragma mark - layout
+
+-(void)reloadView{
+    self.mainScrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.menuBar.frame = CGRectMake(0, _headerHeight, self.view.frame.size.width, self.menuHeight);
+    [self.mainScrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height+_headerHeight)];
+}
+
 
 -(void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
@@ -284,8 +342,10 @@
 
 -(UIScrollView *)mainScrollView{
     if (!_mainScrollView) {
-        _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _mainScrollView = [[YHScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _mainScrollView.delegate = self;
         [self.view addSubview:_mainScrollView];
+        _mainScrollView.showsVerticalScrollIndicator = NO;
     }
     return _mainScrollView;
 }
@@ -303,6 +363,7 @@
 -(UIPanGestureRecognizer *)panGestureRecognizer{
     if (!_panGestureRecognizer) {
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panHandler:)];
+        _panGestureRecognizer.delegate = self;
     }
     return _panGestureRecognizer;
 }
@@ -336,12 +397,97 @@
 }
 
 -(CGFloat)contentViewOffsetY{
-    return self.menuHeight;
+    return self.menuHeight+_headerHeight;
+}
+
+-(void)setHeaderView:(UIView *)headerView{
+    _headerView = headerView;
+    if (!headerView) {
+        _headerHeight = 0;
+    }else{
+        _headerHeight = headerView.frame.size.height;
+        _headerView.frame = CGRectMake(0, 0, self.view.frame.size.width, _headerHeight);
+        [self.mainScrollView addSubview:self.headerView];
+    }
+    [self reloadView];
 }
 
 #pragma mark - menuBar delegate
 -(void)selectedItemWithIndex:(int)index{
     [self selectControllerIndex:index];
+}
+
+#pragma mark - scrollView delegate
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (self.scrollToTop) {
+        return;
+    }
+    if (scrollView==self.mainScrollView) {
+        UIScrollView * tmpScroll = [self getCurrentScrollView];
+        if (self.mainScrollView.contentOffset.y>_headerHeight) {
+            self.mainScrollisTop = YES;
+            [self.mainScrollView setContentOffset:CGPointMake(0, _headerHeight)];
+        }
+        if (self.mainScrollisTop) {
+            self.currentViewScrollContentOffset = tmpScroll.contentOffset;
+            if (tmpScroll.contentOffset.y>0) {
+                 [self.mainScrollView setContentOffset:CGPointMake(0, _headerHeight)];
+            }else{
+                self.mainScrollisTop = NO;
+            }
+        }else{
+            [tmpScroll setContentOffset:self.currentViewScrollContentOffset];
+        }
+    }
+}
+
+-(BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+    self.scrollToTop = YES;
+    self.mainScrollisTop = NO;
+    [[self getCurrentScrollView] scrollRectToVisible:CGRectMake(1, 1, 1, 1) animated:YES];
+    return YES;
+}
+
+-(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+    self.scrollToTop = NO;
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    UIScrollView * tmpScroll = [self getCurrentScrollView];
+    if (tmpScroll) {
+        self.currentViewScrollContentOffset = tmpScroll.contentOffset;
+    }else{
+        self.currentViewScrollContentOffset = CGPointZero;
+    }
+  
+}
+
+
+-(UIScrollView *)getCurrentScrollView{
+    UIView * currentView = self.currentController.view;
+    NSArray * tmpScrolls = currentView.subviews;
+    UIScrollView * tmpScroll = nil;
+    if ([currentView isKindOfClass:[UIScrollView class]]) {
+        tmpScroll = (UIScrollView *)currentView;
+    }else{
+        for (UIView * v in tmpScrolls) {
+            if ([v isKindOfClass:[UIScrollView class]]) {
+                tmpScroll = (UIScrollView *)v;
+            }
+        }
+    }
+    tmpScroll.bounces = NO;
+    tmpScroll.scrollsToTop = NO;
+    return tmpScroll;
+}
+
+#pragma mark - gesture delegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    if (ABS([_panGestureRecognizer velocityInView:self.view].y)>50) {
+        return NO;
+    }else{
+        return YES;
+    }
 }
 
 

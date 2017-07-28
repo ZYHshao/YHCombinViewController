@@ -20,4 +20,6 @@
 
 -(void)selectControllerIndex:(int)index;
 
+@property(nonatomic,strong)UIView * headerView;
+
 @end

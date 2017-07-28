@@ -23,4 +23,6 @@
 
 @property(nonatomic,weak)id<YHMenuBarDelegate> delegate;
 
+-(void)selectIndex:(int)index;
+
 @end

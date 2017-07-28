@@ -74,6 +74,18 @@
     [self layoutView];
 }
 
+-(void)selectIndex:(int)index{
+    if (index<0) {
+        index=0;
+    }
+    if (index>=self.itemArray.count) {
+        return;
+    }
+    for (UIButton * btn in self.itemArray) {
+        btn.selected = NO;
+    }
+    [self.itemArray[index] setSelected:YES];
+}
 
 #pragma mark - layout
 -(void)layoutSubviews{

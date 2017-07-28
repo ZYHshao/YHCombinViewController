@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "YHCombinViewController.h"
+#import "MyViewController.h"
 
 @interface ViewController ()
 
@@ -23,12 +24,25 @@
 - (IBAction)btn:(id)sender {
     NSMutableArray * array = [NSMutableArray array];
     for (int  i =0; i<10; i++) {
-        UIViewController *  con = [[UIViewController alloc]init];
-        con.view.backgroundColor = [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
-        con.title = [NSString stringWithFormat:@"控制器%d",i];
-        [array addObject:con];
+        
+        if (i%2!=0) {
+            UIViewController *  con = [[UIViewController alloc]init];
+            con.view.backgroundColor = [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
+            con.title = [NSString stringWithFormat:@"控制器%d",i];
+            [array addObject:con];
+        }else{
+            MyViewController *  con = [[MyViewController alloc]init];
+            con.view.backgroundColor = [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
+            con.title = [NSString stringWithFormat:@"控制器%d",i];
+            con.index = i;
+            [array addObject:con];
+        }
+       
     }
     YHCombinViewController * combin = [[YHCombinViewController alloc]initWithControllers:array];
+    UIView * header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 300)];
+    header.backgroundColor = [UIColor cyanColor];
+    combin.headerView = header;
     [self presentViewController:combin animated:YES completion:nil];
 }
 
