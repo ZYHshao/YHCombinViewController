@@ -7,19 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		250AB9BE1F2F16B70094F4B2 /* YHCombinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 250AB9B91F2F16B70094F4B2 /* YHCombinViewController.m */; };
+		250AB9BF1F2F16B70094F4B2 /* YHMenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 250AB9BB1F2F16B70094F4B2 /* YHMenuBar.m */; };
+		250AB9C01F2F16B70094F4B2 /* YHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 250AB9BD1F2F16B70094F4B2 /* YHScrollView.m */; };
 		2528736B1F297EDB0032CE2B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2528736A1F297EDB0032CE2B /* main.m */; };
 		2528736E1F297EDB0032CE2B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2528736D1F297EDB0032CE2B /* AppDelegate.m */; };
 		252873711F297EDB0032CE2B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252873701F297EDB0032CE2B /* ViewController.m */; };
 		252873741F297EDB0032CE2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 252873721F297EDB0032CE2B /* Main.storyboard */; };
 		252873761F297EDB0032CE2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 252873751F297EDB0032CE2B /* Assets.xcassets */; };
 		252873791F297EDB0032CE2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 252873771F297EDB0032CE2B /* LaunchScreen.storyboard */; };
-		252873831F297F280032CE2B /* YHCombinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252873821F297F280032CE2B /* YHCombinViewController.m */; };
-		252873861F29D8F30032CE2B /* YHMenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 252873851F29D8F30032CE2B /* YHMenuBar.m */; };
 		257CE6981F2AFF7600126DDB /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 257CE6971F2AFF7600126DDB /* MyViewController.m */; };
-		257CE69B1F2B05C200126DDB /* YHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 257CE69A1F2B05C200126DDB /* YHScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		250AB9B81F2F16B70094F4B2 /* YHCombinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCombinViewController.h; sourceTree = "<group>"; };
+		250AB9B91F2F16B70094F4B2 /* YHCombinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHCombinViewController.m; sourceTree = "<group>"; };
+		250AB9BA1F2F16B70094F4B2 /* YHMenuBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHMenuBar.h; sourceTree = "<group>"; };
+		250AB9BB1F2F16B70094F4B2 /* YHMenuBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHMenuBar.m; sourceTree = "<group>"; };
+		250AB9BC1F2F16B70094F4B2 /* YHScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHScrollView.h; sourceTree = "<group>"; };
+		250AB9BD1F2F16B70094F4B2 /* YHScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHScrollView.m; sourceTree = "<group>"; };
 		252873661F297EDB0032CE2B /* YHCombinViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YHCombinViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2528736A1F297EDB0032CE2B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2528736C1F297EDB0032CE2B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -30,14 +36,8 @@
 		252873751F297EDB0032CE2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		252873781F297EDB0032CE2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2528737A1F297EDB0032CE2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		252873811F297F280032CE2B /* YHCombinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCombinViewController.h; sourceTree = "<group>"; };
-		252873821F297F280032CE2B /* YHCombinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHCombinViewController.m; sourceTree = "<group>"; };
-		252873841F29D8F30032CE2B /* YHMenuBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHMenuBar.h; sourceTree = "<group>"; };
-		252873851F29D8F30032CE2B /* YHMenuBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHMenuBar.m; sourceTree = "<group>"; };
 		257CE6961F2AFF7600126DDB /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
 		257CE6971F2AFF7600126DDB /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
-		257CE6991F2B05C200126DDB /* YHScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHScrollView.h; sourceTree = "<group>"; };
-		257CE69A1F2B05C200126DDB /* YHScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,10 +51,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		250AB9B71F2F16B70094F4B2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				250AB9B81F2F16B70094F4B2 /* YHCombinViewController.h */,
+				250AB9B91F2F16B70094F4B2 /* YHCombinViewController.m */,
+				250AB9BA1F2F16B70094F4B2 /* YHMenuBar.h */,
+				250AB9BB1F2F16B70094F4B2 /* YHMenuBar.m */,
+				250AB9BC1F2F16B70094F4B2 /* YHScrollView.h */,
+				250AB9BD1F2F16B70094F4B2 /* YHScrollView.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		2528735D1F297EDB0032CE2B = {
 			isa = PBXGroup;
 			children = (
-				252873801F297EE60032CE2B /* Classes */,
+				250AB9B71F2F16B70094F4B2 /* Classes */,
 				252873681F297EDB0032CE2B /* YHCombinViewController */,
 				252873671F297EDB0032CE2B /* Products */,
 			);
@@ -92,19 +105,6 @@
 				2528736A1F297EDB0032CE2B /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		252873801F297EE60032CE2B /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				252873811F297F280032CE2B /* YHCombinViewController.h */,
-				252873821F297F280032CE2B /* YHCombinViewController.m */,
-				252873841F29D8F30032CE2B /* YHMenuBar.h */,
-				252873851F29D8F30032CE2B /* YHMenuBar.m */,
-				257CE6991F2B05C200126DDB /* YHScrollView.h */,
-				257CE69A1F2B05C200126DDB /* YHScrollView.m */,
-			);
-			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,13 +179,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				250AB9BE1F2F16B70094F4B2 /* YHCombinViewController.m in Sources */,
+				250AB9C01F2F16B70094F4B2 /* YHScrollView.m in Sources */,
+				250AB9BF1F2F16B70094F4B2 /* YHMenuBar.m in Sources */,
 				257CE6981F2AFF7600126DDB /* MyViewController.m in Sources */,
-				257CE69B1F2B05C200126DDB /* YHScrollView.m in Sources */,
 				252873711F297EDB0032CE2B /* ViewController.m in Sources */,
-				252873861F29D8F30032CE2B /* YHMenuBar.m in Sources */,
 				2528736E1F297EDB0032CE2B /* AppDelegate.m in Sources */,
 				2528736B1F297EDB0032CE2B /* main.m in Sources */,
-				252873831F297F280032CE2B /* YHCombinViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
