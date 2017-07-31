@@ -54,7 +54,7 @@
 		2528735D1F297EDB0032CE2B = {
 			isa = PBXGroup;
 			children = (
-				252873801F297EE60032CE2B /* class */,
+				252873801F297EE60032CE2B /* Classes */,
 				252873681F297EDB0032CE2B /* YHCombinViewController */,
 				252873671F297EDB0032CE2B /* Products */,
 			);
@@ -94,7 +94,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		252873801F297EE60032CE2B /* class */ = {
+		252873801F297EE60032CE2B /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				252873811F297F280032CE2B /* YHCombinViewController.h */,
@@ -104,7 +104,7 @@
 				257CE6991F2B05C200126DDB /* YHScrollView.h */,
 				257CE69A1F2B05C200126DDB /* YHScrollView.m */,
 			);
-			name = class;
+			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
