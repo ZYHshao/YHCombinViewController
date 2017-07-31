@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "YHCombinViewController"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "聚合视图控制器，快速搭建多tab界面"
 
   # This description is used to generate tags and improve search results.
