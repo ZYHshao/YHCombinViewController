@@ -10,7 +10,11 @@
 
 
 @interface YHMenuBar()
-
+{
+    UIColor * _titleTextHighlightColor;
+    UIColor * _titleTextColor;
+    int _index;
+}
 @property(nonatomic,strong)NSMutableArray * titlesArray;
 
 @property(nonatomic,strong)UIScrollView * scrollView;
@@ -22,7 +26,8 @@
 @end
 
 @implementation YHMenuBar
-
+@synthesize titleTextHighlightColor;
+@synthesize titleTextColor;
 -(instancetype)initWithTitles:(NSArray<NSString *> *)titles{
     self = [super init];
     if (self) {
@@ -46,10 +51,10 @@
         [self.scrollView addSubview:btn];
         [btn setTitle:self.titlesArray[i] forState:UIControlStateNormal];
         [btn sizeToFit];
-        [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+        [btn setTitleColor:self.titleTextColor forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
         btn.frame = CGRectMake(allWidth, 0, btn.frame.size.width, self.frame.size.height);
-        [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        [btn setTitleColor:self.titleTextHighlightColor forState:UIControlStateSelected];
         allWidth+=btn.frame.size.width;
         btn.tag = i;
         [btn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -66,6 +71,8 @@
     if ([self.delegate respondsToSelector:@selector(selectedItemWithIndex:)]){
         [self.delegate selectedItemWithIndex:(int)button.tag];
     }
+    _index = (int)button.tag;
+    [self layoutContentOffset:(int)button.tag];
 }
 
 -(void)reloadBarWithTitle:(NSArray<NSString *> *)titles{
@@ -78,6 +85,7 @@
     if (index<0) {
         index=0;
     }
+    _index = index;
     if (index>=self.itemArray.count) {
         return;
     }
@@ -85,6 +93,15 @@
         btn.selected = NO;
     }
     [self.itemArray[index] setSelected:YES];
+    [self layoutContentOffset:index];
+}
+
+-(void)layoutContentOffset:(int)index{
+    CGFloat offset = index*self.scrollView.contentSize.width/self.titlesArray.count;
+    if (offset>self.scrollView.contentSize.width-self.scrollView.frame.size.width) {
+        return;
+    }
+     [self.scrollView setContentOffset:CGPointMake(offset, 0) animated:YES];
 }
 
 #pragma mark - layout
@@ -118,6 +135,31 @@
     return _itemArray;
 }
 
+-(void)setTitleTextColor:(UIColor *)titleTextColor{
+    _titleTextColor = titleTextColor;
+    [self layoutView];
+    [self selectIndex:_index];
+}
+
+-(void)setTitleTextHighlightColor:(UIColor *)titleTextHighlightColor{
+    _titleTextHighlightColor = titleTextHighlightColor;
+    [self layoutView];
+    [self selectIndex:_index];
+}
+
+-(UIColor *)titleTextColor{
+    if (!_titleTextColor) {
+        _titleTextColor = [UIColor blackColor];
+    }
+    return _titleTextColor;
+}
+
+-(UIColor *)titleTextHighlightColor{
+    if (!_titleTextHighlightColor) {
+        _titleTextHighlightColor = [UIColor redColor];
+    }
+    return _titleTextHighlightColor;
+}
 
 @end
 

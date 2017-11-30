@@ -43,6 +43,8 @@
     UIView * header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 300)];
     header.backgroundColor = [UIColor cyanColor];
     combin.headerView = header;
+    combin.menuBar.titleTextColor = [UIColor blueColor];
+    combin.menuBar.titleTextHighlightColor = [UIColor cyanColor];
     [self presentViewController:combin animated:YES completion:nil];
 }
 

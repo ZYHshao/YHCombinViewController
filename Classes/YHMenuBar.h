@@ -25,4 +25,8 @@
 
 -(void)selectIndex:(int)index;
 
+@property(nonatomic,strong)UIColor * titleTextColor;
+
+@property(nonatomic,strong)UIColor * titleTextHighlightColor;
+
 @end

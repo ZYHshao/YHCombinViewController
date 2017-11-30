@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YHMenuBar.h"
 @interface YHCombinViewController : UIViewController
 
 
 -(instancetype)initWithControllers:(NSArray<UIViewController *> *)controllers;
 
+@property(nonatomic,strong)YHMenuBar * menuBar;
 
 @property(nonatomic,strong,readonly)NSArray<UIViewController*> *controllerArrays;
 

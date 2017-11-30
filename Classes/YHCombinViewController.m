@@ -7,7 +7,7 @@
 //
 
 #import "YHCombinViewController.h"
-#import "YHMenuBar.h"
+
 #import "YHScrollView.h"
 
 
@@ -27,7 +27,7 @@
 
 @property(nonatomic,assign)BOOL isAotuTransitoning;
 
-@property(nonatomic,strong)YHMenuBar * menuBar;
+
 
 @property(nonatomic,assign,readonly)CGFloat viewHeight;
 
